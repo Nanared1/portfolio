@@ -59,12 +59,17 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
 }));
 dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) { const box=dialog.getBoundingClientRect(); if(event.clientX<box.left || event.clientX>box.right || event.clientY<box.top || event.clientY>box.bottom) dialog.close(); } });
-dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); lastOpener?.focus(); });
+dialog.addEventListener('close', () => {
+  if (document.querySelector('dialog[open]')) return;
+  document.body.classList.remove('modal-open');
+  lastOpener?.focus();
+});
 
 const contactDialog = document.querySelector('#contact-dialog');
 let contactOpener;
 document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', () => {
-  contactOpener = button;
+  contactOpener = dialog.contains(button) ? lastOpener : button;
+  if (dialog.open) dialog.close();
   contactDialog.showModal();
   document.body.classList.add('modal-open');
 }));
