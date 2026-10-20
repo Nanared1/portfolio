@@ -20,4 +20,4 @@ button.email-link{background:none;border:0;border-bottom:1px solid var(--ink);pa
 .contact-options a:hover>span:last-child{transform:translate(3px,-3px)}
 @media(max-width:700px){.contact-options strong{font-size:16px}.contact-options small{font-size:11px}}
 
-.icon-arrow{display:inline-block;width:1em;height:1em;vertical-align:-.14em;flex-shrink:0}
+.icon-arrow,.icon-star{display:inline-block;width:1em;height:1em;vertical-align:-.14em;flex-shrink:0}
