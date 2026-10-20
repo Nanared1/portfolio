@@ -21,3 +21,42 @@ button.email-link{background:none;border:0;border-bottom:1px solid var(--ink);pa
 @media(max-width:700px){.contact-options strong{font-size:16px}.contact-options small{font-size:11px}}
 
 .icon-arrow,.icon-star{display:inline-block;width:1em;height:1em;vertical-align:-.14em;flex-shrink:0}
+
+/* Short, one-time entrances; all content stays visible without JavaScript. */
+@media(prefers-reduced-motion:no-preference){
+  .motion-in{animation:section-arrive .55s cubic-bezier(.22,.61,.36,1) backwards}
+  .project.motion-in .flow-node{animation:artwork-arrive 1s cubic-bezier(.22,.61,.36,1) backwards}
+  .project.motion-in .flow-mid{animation-delay:.12s}
+  .project.motion-in .flow-end{animation-delay:.24s}
+  .project.motion-in .orbit{animation:orbit-settle 1.6s cubic-bezier(.22,.61,.36,1) backwards}
+  .project.motion-in .orbit-two{animation-delay:.1s}
+  .project.motion-in .orbit-three{animation-delay:.2s}
+  .project.motion-in .route{animation:route-draw 1.5s cubic-bezier(.22,.61,.36,1) .15s backwards}
+  .contact-top.motion-in .icon-star{animation:star-settle 1.2s cubic-bezier(.22,.61,.36,1) backwards}
+  dialog[open] .dialog-inner{animation:dialog-arrive .22s ease-out backwards}
+  dialog[open]::backdrop{animation:backdrop-arrive .22s ease-out backwards}
+}
+.project-title h3,.footer a,.timeline-row,.nav-contact{transition:color .25s,background-color .25s}
+.flow-node,.orbit,.core,.flow-spark,.icon-arrow{transition:translate .4s cubic-bezier(.22,.61,.36,1),rotate .65s cubic-bezier(.22,.61,.36,1),scale .4s,color .25s}
+.project-open:focus-visible .project-title h3{color:var(--accent)}
+.project-open:focus-visible .project-arrow{transform:translate(3px,-3px)}
+.text-button:focus-visible,.nav-contact:focus-visible{color:var(--accent)}
+@media(hover:hover) and (pointer:fine){
+  .project-open:hover .project-title h3{color:var(--accent)}
+  .project-open:hover .flow-start{translate:0 -3px}
+  .project-open:hover .flow-mid{translate:0 -5px}
+  .project-open:hover .flow-end{translate:0 -2px}
+  .project-open:hover .flow-spark{rotate:22.5deg}
+  .project-open:hover .orbit-one{rotate:8deg}
+  .project-open:hover .orbit-two{rotate:-8deg}
+  .project-open:hover .core{scale:1.035}
+  .timeline-row:hover{background-color:#eaecdf55}
+  .text-button:hover .icon-arrow,.nav-contact:hover .icon-arrow,.email-link:hover .icon-arrow,.footer a:hover .icon-arrow{translate:2px -2px}
+}
+@keyframes section-arrive{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes artwork-arrive{from{opacity:.35;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes orbit-settle{from{opacity:.3;rotate:-14deg}to{opacity:1;rotate:0deg}}
+@keyframes route-draw{from{stroke-dasharray:1 1;stroke-dashoffset:1}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
+@keyframes star-settle{from{rotate:-45deg}to{rotate:0deg}}
+@keyframes dialog-arrive{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+@keyframes backdrop-arrive{from{opacity:0}to{opacity:1}}

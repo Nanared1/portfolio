@@ -83,3 +83,22 @@ contactDialog.addEventListener('close', () => {
   document.body.classList.remove('modal-open');
   contactOpener?.focus();
 });
+
+// Enhance entrances without hiding content when scripts or motion are unavailable.
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+if ('IntersectionObserver' in window && !motionPreference.matches) {
+  const entranceObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      if (!motionPreference.matches && !entry.target.contains(document.activeElement)) {
+        entry.target.classList.add('motion-in');
+      }
+      entranceObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll([
+    '.hero h1', '.hero-bottom', '.section-heading', '.project', '.more-work',
+    '.about-grid > div', '.timeline-row', '.toolbox', '.contact-top',
+    '.contact h2', '.contact-bottom'
+  ].join(',')).forEach(element => entranceObserver.observe(element));
+}
