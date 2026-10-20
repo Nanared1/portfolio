@@ -40,6 +40,38 @@ const projects = {
     ]
   }
 };
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const closingDialogs = new WeakMap();
+function closeDialog(target) {
+  if (!target.open) return Promise.resolve();
+  if (closingDialogs.has(target)) return closingDialogs.get(target);
+  if (motionPreference.matches) {
+    target.close();
+    return Promise.resolve();
+  }
+  const closing = new Promise(resolve => {
+    let finished = false;
+    let fallback;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(fallback);
+      target.removeEventListener('animationend', onEnd);
+      target.classList.remove('is-closing');
+      target.close();
+      closingDialogs.delete(target);
+      resolve();
+    };
+    const onEnd = event => {
+      if (event.target === target && event.animationName === 'dialog-depart') finish();
+    };
+    target.addEventListener('animationend', onEnd);
+    target.classList.add('is-closing');
+    fallback = setTimeout(finish, 220);
+  });
+  closingDialogs.set(target, closing);
+  return closing;
+}
 const dialog = document.querySelector('#project-dialog');
 let lastOpener;
 document.querySelectorAll('[data-project]').forEach(button => button.addEventListener('click', () => {
@@ -57,8 +89,8 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
   }));
   dialog.showModal(); document.body.classList.add('modal-open'); dialog.scrollTop = 0;
 }));
-dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { if (event.target === dialog) { const box=dialog.getBoundingClientRect(); if(event.clientX<box.left || event.clientX>box.right || event.clientY<box.top || event.clientY>box.bottom) dialog.close(); } });
+dialog.querySelector('.dialog-close').addEventListener('click', () => closeDialog(dialog));
+dialog.addEventListener('click', event => { if (event.target === dialog) { const box=dialog.getBoundingClientRect(); if(event.clientX<box.left || event.clientX>box.right || event.clientY<box.top || event.clientY>box.bottom) closeDialog(dialog); } });
 dialog.addEventListener('close', () => {
   if (document.querySelector('dialog[open]')) return;
   document.body.classList.remove('modal-open');
@@ -67,25 +99,32 @@ dialog.addEventListener('close', () => {
 
 const contactDialog = document.querySelector('#contact-dialog');
 let contactOpener;
-document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', () => {
-  contactOpener = dialog.contains(button) ? lastOpener : button;
-  if (dialog.open) dialog.close();
+document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', async () => {
+  if (contactDialog.open) return;
+  const opener = dialog.contains(button) ? lastOpener : button;
+  if (dialog.open) await closeDialog(dialog);
+  if (contactDialog.open) return;
+  contactOpener = opener;
   contactDialog.showModal();
   document.body.classList.add('modal-open');
 }));
-contactDialog.querySelector('.dialog-close').addEventListener('click', () => contactDialog.close());
+contactDialog.querySelector('.dialog-close').addEventListener('click', () => closeDialog(contactDialog));
 contactDialog.addEventListener('click', event => {
   if (event.target !== contactDialog) return;
   const box = contactDialog.getBoundingClientRect();
-  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) contactDialog.close();
+  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) closeDialog(contactDialog);
 });
 contactDialog.addEventListener('close', () => {
   document.body.classList.remove('modal-open');
   contactOpener?.focus();
 });
 
+[dialog, contactDialog].forEach(panel => panel.addEventListener('cancel', event => {
+  event.preventDefault();
+  closeDialog(panel);
+}));
+
 // Enhance entrances without hiding content when scripts or motion are unavailable.
-const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 if ('IntersectionObserver' in window && !motionPreference.matches) {
   const entranceObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -102,3 +141,29 @@ if ('IntersectionObserver' in window && !motionPreference.matches) {
     '.contact h2', '.contact-bottom'
   ].join(',')).forEach(element => entranceObserver.observe(element));
 }
+
+// One short illustration sequence per hover or keyboard-focus entry.
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+document.querySelectorAll('.project-open').forEach(button => {
+  if (!button.querySelector('.flow-art, .kabby-art')) return;
+  const activateArtwork = () => {
+    if (motionPreference.matches || button.classList.contains('artwork-active')) return;
+    button.classList.add('artwork-active');
+    const marker = button.querySelector('.route-marker');
+    const journey = marker?.querySelector('animateMotion');
+    if (typeof journey?.beginElement === 'function') {
+      marker.classList.add('marker-running');
+      journey.beginElement();
+    }
+    setTimeout(() => {
+      button.classList.remove('artwork-active');
+      marker?.classList.remove('marker-running');
+    }, 1500);
+  };
+  button.addEventListener('pointerenter', () => {
+    if (finePointer.matches) activateArtwork();
+  });
+  button.addEventListener('focusin', () => {
+    if (button.matches(':focus-visible')) activateArtwork();
+  });
+});
