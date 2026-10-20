@@ -31,12 +31,12 @@ const projects = {
   },
   answers: {
     meta: 'ADA / 2026 / AI KNOWLEDGE SYSTEMS', title: 'Answer compilation',
-    intro: 'Turning help-center content into concise answers an AI agent can use.',
+    intro: 'Turning help-center content into concise answers an AI agent can use. Currently rolling out in production.',
     sections: [
-      ['The problem', 'A useful answer can be buried inside a long article. Retrieving the article is only part of the job; an AI agent also needs information that is concise, self-contained, and faithful to its source.'],
+      ['The problem', 'Help-center articles can be long, even when a customer asks a simple, repeatable question. Retrieving and processing the full article on every request adds response time and inference cost, and can lead to unnecessarily long answers. The agent needs concise, source-grounded answers it can retrieve directly.'],
       ['My contribution', 'I built the compiler that transforms help articles into answer units and worked on the retrieval and evaluation around that process.'],
       ['The approach', 'Pair content transformation with source-grounded quality checks. Evaluate whether the compiled answer is supported by the article, and examine retrieval quality separately from downstream agent outcomes.'],
-      ['What shipped', 'Answer compilation went live in the product. The work brought together content transformation, retrieval, and source-grounded evaluation in a production knowledge pipeline.']
+      ['Rollout status', 'Answer compilation is currently rolling out in the product. The work brings together content transformation, retrieval, and source-grounded evaluation in a production knowledge pipeline.']
     ]
   }
 };
