@@ -57,6 +57,24 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
   }));
   dialog.showModal(); document.body.classList.add('modal-open'); dialog.scrollTop = 0;
 }));
-document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) { const box=dialog.getBoundingClientRect(); if(event.clientX<box.left || event.clientX>box.right || event.clientY<box.top || event.clientY>box.bottom) dialog.close(); } });
 dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); lastOpener?.focus(); });
+
+const contactDialog = document.querySelector('#contact-dialog');
+let contactOpener;
+document.querySelectorAll('[data-contact]').forEach(button => button.addEventListener('click', () => {
+  contactOpener = button;
+  contactDialog.showModal();
+  document.body.classList.add('modal-open');
+}));
+contactDialog.querySelector('.dialog-close').addEventListener('click', () => contactDialog.close());
+contactDialog.addEventListener('click', event => {
+  if (event.target !== contactDialog) return;
+  const box = contactDialog.getBoundingClientRect();
+  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) contactDialog.close();
+});
+contactDialog.addEventListener('close', () => {
+  document.body.classList.remove('modal-open');
+  contactOpener?.focus();
+});
