@@ -1,0 +1,34 @@
+name: Deploy portfolio to Firebase Hosting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-hosting-live
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out portfolio
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - name: Check JavaScript syntax
+        run: node --check dist/script.js
+      - name: Deploy live site
+        uses: FirebaseExtended/action-hosting-deploy@7c850a480ce753f4f06f010801fc5a43787740bb # v0
+        with:
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_PORTFOLIO_6BA2B }}'
+          projectId: my-portfolio-6ba2b
+          channelId: live
+          firebaseToolsVersion: '15.34.0'

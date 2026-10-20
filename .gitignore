@@ -4,3 +4,8 @@
 !.env.example
 .openai/
 node_modules/
+
+# Firebase local state
+.firebase/
+firebase-debug.log*
+ui-debug.log*
