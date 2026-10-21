@@ -107,3 +107,49 @@ nav>a:hover::after,nav>a:focus-visible::after{transform:scaleX(1)}
 @media print{:root,:root[data-theme]{color-scheme:light!important;--paper:#fff!important;--ink:#111!important;--muted:#555!important;--line:#ddd!important;--accent:#8a3124!important;--olive:#fff!important;--body-copy:#525a53!important;--project-copy:#60675f!important;--about-copy:#5b6358!important;--practice-line:#cdd2c2!important;--circle-border:#aeb5a7!important;--tool-dot:#9a9f93!important;--row-hover:#eaecdf55!important;--selection:#e9c7b9!important;--reasoner-bg:#dee4e6!important;--reasoner-ink:#34434c!important;--orbit-line:#899ba5!important;--orbit-label-bg:#edf0ee!important;--orbit-label-line:#a6b5bb!important;--core-ink:#edf2ee!important;--kabby-bg:#e9d7bf!important;--kabby-ink:#242a27!important;--kabby-meta:#675d4e!important;--kabby-copy:#3e4136!important;--kabby-detail:#6d6555!important;--map-bg:#dfcbae!important;--map-road:#f2e5d3!important;--map-route:#8f4c37!important;--map-caption:#584e3d!important;--marker-outline:#f8f5ed!important;}.theme-toggle{display:none!important}}
 
 @media(max-width:360px){nav>a[href="resume.html"]>span{display:none}}
+
+.project .project-name{font-size:12px;font-weight:550;color:var(--accent);margin:12px 0 8px;letter-spacing:.1px}
+.project .project-name+p{margin-top:0}
+.project-title{align-items:flex-start;gap:18px}
+.project-role{font-size:12px;line-height:1.65}
+.project .kabby-impact{font-size:15px;font-weight:550;color:var(--kabby-ink);margin:18px 0 0;line-height:1.5}
+.case-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin:0 0 30px}
+.case-facts dt{font-size:11px;color:var(--muted)}
+.case-facts dd{font-size:20px;font-weight:550;line-height:1.35;letter-spacing:-.4px;margin:6px 0 0}
+.scope-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.scope-grid>div{padding:15px;background:var(--olive);border:1px solid var(--line)}
+.scope-grid strong{display:block;font-size:13px;margin-bottom:8px}
+.dialog-inner .scope-grid p{font-size:13px;line-height:1.65}
+.case-evidence a{display:block;font-size:13px;line-height:1.6;padding:9px 0;border-bottom:1px solid var(--line);text-decoration:underline;text-underline-offset:4px}
+.case-evidence a:hover{color:var(--accent)}
+.experience-links{display:flex;align-items:center;gap:22px}
+.print-link{font-size:12px;background:none;border:0;border-bottom:1px solid var(--ink);padding:4px 0}
+.earlier-scope{font-size:12px;color:var(--muted);margin:12px 0 8px;line-height:1.7}
+@media(max-width:700px){
+  .project p,.more-work p:not(.eyebrow),.about-copy>p,.practice-list p,.timeline-row .timeline-desc,.contact-bottom p{font-size:14px}
+  .project-topline{font-size:10px;line-height:1.6;letter-spacing:.5px}
+  .project-role{font-size:12px;margin-top:14px}
+  .art-label{font-size:10px;letter-spacing:1px}
+  .timeline-date{font-size:11px;letter-spacing:.7px}
+  .timeline-row p{font-size:13px}
+  .timeline-desc small{font-size:12px;line-height:1.7}
+  .toolbox>p:last-child{font-size:13px;line-height:1.9}
+  .toolbox .eyebrow,.section-heading .eyebrow,.contact-top .eyebrow,.about .eyebrow{font-size:10px;letter-spacing:1.1px}
+  .dialog-inner section p,.dialog-inner .scope-grid p{font-size:14px}
+  .dialog-inner>.eyebrow{font-size:10px;letter-spacing:1px}
+  .case-facts{gap:12px}
+  .case-facts dd{font-size:17px}
+  .scope-grid{grid-template-columns:1fr}
+  .experience-links{flex-direction:column;align-items:flex-start;gap:14px;padding-top:32px}
+  .experience .section-heading .experience-links .text-button{font-size:12px;margin-top:0;min-width:0;white-space:nowrap;gap:8px}
+  .resume.wrap li,.resume.wrap .role{font-size:14px}
+  .resume.wrap .progression,.resume.wrap .earlier-scope{font-size:12px}
+}
+@media(max-width:360px){.experience .section-heading{display:block}.experience-links{flex-direction:row;gap:20px;padding-top:22px}}
+@media print{.resume .earlier-scope{font-size:9px;margin:6px 0}.print-link{display:none}}
+
+.icon-download{display:inline-block;width:1em;height:1em;vertical-align:-.14em;flex-shrink:0}
+@media(max-width:700px){.case-evidence a{font-size:14px}}
+
+@media(max-width:700px){.kabby-content>p:first-of-type{font-size:18px}.kabby-project .kabby-detail{font-size:14px}}
+@media print{.resume.wrap li,.resume.wrap .role{font-size:10px}.resume.wrap .progression,.resume.wrap .earlier-scope{font-size:9px}}

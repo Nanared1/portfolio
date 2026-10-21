@@ -14,9 +14,12 @@ Open http://localhost:4173.
 
 - `dist/index.html` — portfolio
 - `dist/style.css` — responsive design
-- `dist/script.js` — project overview dialogs
+- `dist/script.js` — project overviews and motion
+- `dist/theme.js` — device-aware theme and saved preference
 - `dist/resume.html` — résumé and print layout
 - `dist/assets/favicon.svg` — favicon
+- `dist/assets/nana-abekah-resume.pdf` — public résumé download
+- `dist/assets/social-preview.png` — social sharing image
 
 ## Deployment
 
@@ -33,3 +36,19 @@ Typography uses Google Fonts with local system-font fallbacks.
 ### Automatic deployment
 
 Every push to `main` deploys to the live Firebase Hosting site through GitHub Actions. The workflow can also be started manually from the Actions tab. Deployment credentials are stored in an encrypted repository secret and are not included in the source code.
+
+### Public résumé and sharing assets
+
+`dist/resume.html` is the source for the downloadable PDF. After changing its content, regenerate the PDF with Python and `reportlab` available:
+
+```sh
+python3 scripts/build-resume.py
+```
+
+The branded social image can be regenerated with Python and `Pillow` available:
+
+```sh
+python3 scripts/build-social-preview.py
+```
+
+Commit the generated assets with source edits; Firebase serves the checked-in static files. The résumé uses public-safe wording and omits internal Ada metrics.

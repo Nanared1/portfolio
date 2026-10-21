@@ -1,7 +1,7 @@
 const projects = {
   playbooks: {
-    meta: 'ADA / 2026 / TECHNICAL LEAD', title: 'Playbooks V2',
-    intro: 'A ground-up rebuild of how an AI agent executes business workflows.',
+    meta: 'ADA / PLAYBOOKS V2 / 2026 / TECHNICAL LEAD', title: 'Faster AI workflows',
+    intro: 'Faster, more predictable workflow execution by moving fixed steps into code. I led the architecture, hands-on implementation, and cross-functional delivery through launch.',
     sections: [
       ['The problem', 'Customer-service workflows need both flexibility and precision. An AI agent has to understand what a customer needs while carrying out the right steps reliably.'],
       ['My contribution', 'I led the technical design and implementation of the Playbooks V2 execution engine. I began as the architect and hands-on builder, then led a cross-functional team as the project grew. My work also extended into the workflow editor and production observability.'],
@@ -10,8 +10,8 @@ const projects = {
     ]
   },
   reasoner: {
-    meta: 'ADA / 2026 / ARCHITECTURE & TECHNICAL LEADERSHIP', title: 'Unified Reasoner V2',
-    intro: 'Architected and led a rewrite of the engine that decides what an AI customer-service agent says and does. Currently rolling out in production.',
+    meta: 'ADA / UNIFIED REASONER V2 / 2026', title: 'More efficient AI decisions',
+    intro: 'Lower model costs and better independent resolution in evaluation. I architected the initial rewrite, built the first implementation, and led the team through delivery. Currently rolling out in production.',
     sections: [
       ['The problem', 'As an AI agent takes on more responsibilities, its reasoning system needs to remain understandable, efficient, and adaptable. Changes also have to work alongside the capabilities customers already rely on.'],
       ['My contribution', 'I initiated the architecture and implementation, then led a small engineering team through the rewrite. I remain hands-on as the team rolls the new engine out in production.'],
@@ -20,15 +20,66 @@ const projects = {
     ]
   },
   kabby: {
-    meta: 'KABBY / 2023—2025 / COFOUNDER & LEAD ENGINEER', title: 'A product for a city.',
-    intro: 'Co-founding and building a rideshare platform in St. John’s, Newfoundland.',
-    sections: [
-      ['The opportunity', 'Build a rideshare experience for a local market, and take responsibility for the whole product rather than a single feature.'],
-      ['My contribution', 'As cofounder and lead engineer, I built the React Native mobile app and designed the backend. The platform brought together ride matching, driver allocation, payments, and the infrastructure needed to run the service.'],
-      ['The stack', 'React Native, Node.js, TypeScript, GraphQL, MongoDB, Redis, GCP, and Stripe.'],
-      ['What shipped', 'A product launched on the App Store and Google Play. The work gave me direct experience with the technical and product decisions involved in taking a company from idea to a live service.']
+    "meta": "KABBY / 2023–2025 / COFOUNDER & LEAD ENGINEER",
+    "title": "From idea to 3,000+ users.",
+    "intro": "I co-founded Kabby and owned engineering across its mobile app and backend, taking a local rideshare product through launch on iOS and Android.",
+    "facts": [
+        [
+            "Users reached",
+            "3,000+"
+        ],
+        [
+            "Platforms",
+            "iOS & Android"
+        ],
+        [
+            "Ownership",
+            "Mobile + backend"
+        ]
+    ],
+    "scope": [
+        [
+            "Rider experience",
+            "React Native mobile app for iOS and Android."
+        ],
+        [
+            "Ride operations",
+            "Ride matching, driver allocation, and real-time updates."
+        ],
+        [
+            "Platform & payments",
+            "Node.js, GraphQL, MongoDB, Redis, GCP, and Stripe."
+        ]
+    ],
+    "sections": [
+        [
+            "The opportunity",
+            "Build a local rideshare experience for St. John’s, Newfoundland, and take responsibility for the whole product from its first implementation through launch."
+        ],
+        [
+            "What I owned",
+            "As cofounder and lead engineer, I built the React Native mobile app and designed and implemented the backend. My scope covered ride matching, driver allocation, payments, and the services needed to support a live ride."
+        ],
+        [
+            "Connecting the experience",
+            "The mobile app, matching logic, real-time ride updates, and payments had to work together as one service. I owned the engineering across those boundaries and improved ride matching and driver allocation to help fulfill requests more efficiently."
+        ],
+        [
+            "The result",
+            "Kabby launched on the App Store and Google Play and grew to 3,000+ users. This work brought together product decisions, architecture, implementation, and the responsibility of shipping a service for a local market."
+        ]
+    ],
+    "links": [
+        [
+            "2024 provincial licence announcement",
+            "https://www.gov.nl.ca/releases/2024/dgsnl/0509n01/"
+        ],
+        [
+            "Launch coverage in VOCM",
+            "https://vocm.com/2024/05/09/kabby-app-ride-share/"
+        ]
     ]
-  },
+},
   answers: {
     meta: 'ADA / 2026 / AI KNOWLEDGE SYSTEMS', title: 'Answer compilation',
     intro: 'Turning help-center content into concise answers an AI agent can use. Currently rolling out in production.',
@@ -87,6 +138,39 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
     const paragraph = document.createElement('p'); paragraph.textContent = copy;
     section.append(h, paragraph); return section;
   }));
+  if (p.facts) {
+    const facts = document.createElement('dl'); facts.className = 'case-facts';
+    p.facts.forEach(([label, value]) => {
+      const item = document.createElement('div');
+      const term = document.createElement('dt'); term.textContent = label;
+      const detail = document.createElement('dd'); detail.textContent = value;
+      item.append(term, detail); facts.append(item);
+    });
+    body.prepend(facts);
+  }
+  if (p.scope) {
+    const section = document.createElement('section'); section.className = 'case-scope';
+    const heading = document.createElement('h3'); heading.textContent = 'My build scope';
+    const items = document.createElement('div'); items.className = 'scope-grid';
+    p.scope.forEach(([title, copy]) => {
+      const item = document.createElement('div');
+      const label = document.createElement('strong'); label.textContent = title;
+      const description = document.createElement('p'); description.textContent = copy;
+      item.append(label, description); items.append(item);
+    });
+    section.append(heading, items); body.append(section);
+  }
+  if (p.links) {
+    const section = document.createElement('section'); section.className = 'case-evidence';
+    const heading = document.createElement('h3'); heading.textContent = 'Public launch records';
+    section.append(heading);
+    p.links.forEach(([label, url]) => {
+      const link = document.createElement('a'); link.textContent = label;
+      link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      section.append(link);
+    });
+    body.append(section);
+  }
   dialog.showModal(); document.body.classList.add('modal-open'); dialog.scrollTop = 0;
 }));
 dialog.querySelector('.dialog-close').addEventListener('click', () => closeDialog(dialog));
