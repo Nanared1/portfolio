@@ -24,7 +24,9 @@ jobs:
         with:
           node-version: '24'
       - name: Check JavaScript syntax
-        run: node --check dist/script.js
+        run: |
+          node --check dist/script.js
+          node --check dist/theme.js
       - name: Deploy live site
         uses: FirebaseExtended/action-hosting-deploy@7c850a480ce753f4f06f010801fc5a43787740bb # v0
         with:
