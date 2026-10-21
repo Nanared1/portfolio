@@ -79,3 +79,10 @@ nav>a:hover::after,nav>a:focus-visible::after{transform:scaleX(1)}
 @keyframes backdrop-depart{from{opacity:1}to{opacity:0}}
 @keyframes step-highlight{0%,100%{opacity:0}45%{opacity:.85}}
 @keyframes marker-presence{0%,100%{opacity:0}10%,88%{opacity:1}}
+
+.reading-progress{position:fixed;z-index:20;top:0;left:0;width:100%;height:2px;background:var(--accent);opacity:.75;transform:scaleX(0);transform-origin:left;pointer-events:none}
+@media(prefers-reduced-motion:no-preference){
+  .flow-art,.orbit-art,.kabby-art>svg{translate:0 var(--scroll-drift,0px)}
+}
+@media(prefers-reduced-motion:reduce){.reading-progress{display:none}}
+@media print{.reading-progress{display:none}}

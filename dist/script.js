@@ -167,3 +167,44 @@ document.querySelectorAll('.project-open').forEach(button => {
     if (button.matches(':focus-visible')) activateArtwork();
   });
 });
+
+// Tie only decorative artwork to scrolling; text and layout remain stationary.
+const readingProgress = document.querySelector('.reading-progress');
+const mobileViewport = window.matchMedia('(max-width: 700px)');
+const scrollingArtwork = [...document.querySelectorAll('.flow-art, .orbit-art, .kabby-art > svg')]
+  .map(illustration => ({ illustration, frame: illustration.closest('.project-art, .kabby-art') }));
+let scrollFrame = 0;
+function updateScrollEffects() {
+  scrollFrame = 0;
+  if (motionPreference.matches) return;
+  const viewportHeight = window.innerHeight;
+  const scrollableHeight = document.documentElement.scrollHeight - viewportHeight;
+  const progress = scrollableHeight > 0 ? Math.max(0, Math.min(1, window.scrollY / scrollableHeight)) : 0;
+  readingProgress.style.transform = `scaleX(${progress})`;
+  const maxDrift = mobileViewport.matches ? 8 : 12;
+  const positions = scrollingArtwork.map(({ illustration, frame }) => {
+    const box = frame.getBoundingClientRect();
+    if (box.bottom < 0 || box.top > viewportHeight) return null;
+    const travel = (viewportHeight / 2 - box.top - box.height / 2) / ((viewportHeight + box.height) / 2);
+    return { illustration, drift: Math.max(-1, Math.min(1, travel)) * maxDrift };
+  });
+  positions.forEach(position => {
+    if (position) position.illustration.style.setProperty('--scroll-drift', `${position.drift.toFixed(2)}px`);
+  });
+}
+function requestScrollUpdate() {
+  if (!motionPreference.matches && !scrollFrame) scrollFrame = requestAnimationFrame(updateScrollEffects);
+}
+window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+window.addEventListener('resize', requestScrollUpdate, { passive: true });
+window.addEventListener('load', requestScrollUpdate, { once: true });
+document.fonts?.ready.then(requestScrollUpdate);
+motionPreference.addEventListener('change', () => {
+  cancelAnimationFrame(scrollFrame);
+  scrollFrame = 0;
+  if (motionPreference.matches) {
+    readingProgress.style.transform = 'scaleX(0)';
+    scrollingArtwork.forEach(({ illustration }) => illustration.style.removeProperty('--scroll-drift'));
+  } else requestScrollUpdate();
+});
+requestScrollUpdate();
